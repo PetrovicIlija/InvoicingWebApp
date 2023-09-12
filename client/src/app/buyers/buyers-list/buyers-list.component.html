@@ -1,0 +1,82 @@
+<mat-toolbar class="toolbar">
+    <span>Partners</span>
+    <span class="spacer"></span>
+    <button mat-raised-button color="primary" (click)="openDialog(this.newBuyer)" class="createButton">Create</button>
+  </mat-toolbar>
+  
+  <mat-table [dataSource]="buyers" class="mat-elevation-z8">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Name</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.name }}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="address">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Address</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.address }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="city">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">City</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.city }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="country">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Country</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.country }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="postalCode">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Postal Code</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.postalCode }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="identificationNumber">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Identification Number</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.identificationNumber }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="taxNumber">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Tax Number</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.taxNumber }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bankAccount1">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Bank Account 1</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.bankAccount1 }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bankAccount2">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Bank Account 2</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.bankAccount2 }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="bankAccount3">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Bank Account 3</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.bankAccount3 }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="swift">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Swift</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.swift }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="isDomestic">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Is Domestic</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">{{ buyer.isDomestic ? "Yes" : "No" }}</mat-cell>
+    </ng-container>
+  
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef class="mat-header-cell">Actions</mat-header-cell>
+      <mat-cell *matCellDef="let buyer" class="mat-cell">
+        <button mat-mini-fab color="primary" (click)="openDialog(buyer)" class="editButton">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="deleteBuyer(buyer)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+  
+    <mat-header-row *matHeaderRowDef="['name', 'address', 'city', 'country', 'postalCode', 'identificationNumber', 'taxNumber', 'bankAccount1', 'bankAccount2', 'bankAccount3', 'swift', 'isDomestic', 'actions']"></mat-header-row>
+    <mat-row *matRowDef="let buyer; columns: ['name', 'address', 'city', 'country', 'postalCode', 'identificationNumber', 'taxNumber', 'bankAccount1', 'bankAccount2', 'bankAccount3', 'swift', 'isDomestic', 'actions']"></mat-row>
+  </mat-table>

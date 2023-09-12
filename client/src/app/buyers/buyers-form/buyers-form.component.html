@@ -1,0 +1,96 @@
+<h1 mat-dialog-title *ngIf="this.data.name===''">Adding new partner</h1>
+<h1 mat-dialog-title *ngIf="this.data.name!==''">Editing a partner</h1>
+<div mat-dialog-content>
+    <form #productsForm = "ngForm" (ngSubmit)="productsForm.form.valid && onSubmit()">
+    <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="data.name" name="name" #name="ngModel" required minlength="2">
+        <mat-hint *ngIf="name.invalid && name.touched">Name required</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Address</mat-label>
+        <input matInput [(ngModel)]="data.address" name="address" #address="ngModel" required minlength="2">
+        <mat-hint *ngIf="address.invalid && address.touched">Address required</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>City</mat-label>
+        <input matInput [(ngModel)]="data.city" name="city" #city="ngModel" required min="0">
+        <mat-hint *ngIf="city.invalid && city.touched">city required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Country</mat-label>
+        <input matInput [(ngModel)]="data.country" name="country" #country="ngModel" required min="0">
+        <mat-hint *ngIf="country.invalid && country.touched">country required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Postal Code</mat-label>
+        <input matInput [(ngModel)]="data.postalCode" name="postalCode" #postalCode="ngModel" required min="0">
+        <mat-hint *ngIf="postalCode.invalid && postalCode.touched">postalCode required</mat-hint>
+    </mat-form-field>   
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Identification Number</mat-label>
+        <input matInput [(ngModel)]="data.identificationNumber" name="identificationNumber" #identificationNumber="ngModel" required min="0">
+        <mat-hint *ngIf="identificationNumber.invalid && identificationNumber.touched">identificationNumber required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Tax Number</mat-label>
+        <input matInput [(ngModel)]="data.taxNumber" name="taxNumber" #taxNumber="ngModel" required min="0">
+        <mat-hint *ngIf="taxNumber.invalid && taxNumber.touched">taxNumber required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Bank Account 1</mat-label>
+        <input matInput [(ngModel)]="data.bankAccount1" name="bankAccount1" #bankAccount1="ngModel" required min="0">
+        <mat-hint *ngIf="bankAccount1.invalid && bankAccount1.touched">bankAccount1 required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Bank Account 2</mat-label>
+        <input matInput [(ngModel)]="data.bankAccount2" name="bankAccount2" #bankAccount2="ngModel" required min="0">
+        <mat-hint *ngIf="bankAccount2.invalid && bankAccount2.touched">bankAccount2 required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Bank Account 3</mat-label>
+        <input matInput [(ngModel)]="data.bankAccount3" name="bankAccount3" #bankAccount3="ngModel" required min="0">
+        <mat-hint *ngIf="bankAccount3.invalid && bankAccount3.touched">bankAccount3 required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Swift</mat-label>
+        <input matInput [(ngModel)]="data.swift" name="swift" #swift="ngModel" required min="0">
+        <mat-hint *ngIf="swift.invalid && swift.touched">swift required</mat-hint>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Is Domestic</mat-label>
+        <mat-select [(ngModel)]="data.isDomestic" name="isDomestic" #isDomestic="ngModel" required>
+          <mat-option [value]="true">Yes</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+        <mat-hint *ngIf="isDomestic.invalid && isDomestic.touched">Is domestic is required</mat-hint>
+      </mat-form-field>      
+
+
+
+
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">No Thanks</button>
+    <button mat-button [disabled]="productsForm.invalid" type="submit" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>
+    </form>
+</div>

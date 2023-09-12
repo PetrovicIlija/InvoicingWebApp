@@ -1,0 +1,11 @@
+.mat-cell{
+    text-align: center;
+}
+mat-table{
+    width: 180%;
+    margin-left: -25%;
+}
+mat-toolbar{
+    width: 180%;
+    margin-left: -25%;
+}

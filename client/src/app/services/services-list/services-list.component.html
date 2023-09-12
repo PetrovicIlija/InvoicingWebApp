@@ -1,0 +1,41 @@
+<mat-toolbar class="toolbar">
+  <span>Services</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="primary" (click)="openDialog(this.newService)" class="createButton">Create</button>
+</mat-toolbar>
+
+<mat-table [dataSource]="services" class="mat-elevation-z8">
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef class="mat-header-cell">Name</mat-header-cell>
+    <mat-cell *matCellDef="let service" class="mat-cell">{{ service.name }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <mat-header-cell *matHeaderCellDef class="mat-header-cell">Price in BAM</mat-header-cell>
+    <mat-cell *matCellDef="let service" class="mat-cell">{{ service.price }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="priceInEuros">
+    <mat-header-cell *matHeaderCellDef class="mat-header-cell">Price in Euros</mat-header-cell>
+    <mat-cell *matCellDef="let service" class="mat-cell">{{ calculatePriceInEuros(service.price) | currency:'EUR':'symbol':'1.2-2' }}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <mat-header-cell *matHeaderCellDef class="mat-header-cell">Actions</mat-header-cell>
+    <mat-cell *matCellDef="let service" class="mat-cell">
+      <button mat-mini-fab color="primary" (click)="openDialog(service)" class="editButton">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-mini-fab color="warn" (click)="deleteService(service)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="['name', 'price', 'priceInEuros', 'actions']"></mat-header-row>
+  <mat-row *matRowDef="let service; columns: ['name', 'price', 'priceInEuros', 'actions']"></mat-row>
+</mat-table>
+
+
+
+

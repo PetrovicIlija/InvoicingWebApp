@@ -1,0 +1,21 @@
+<h1 mat-dialog-title *ngIf="this.data.name===''">Adding new service</h1>
+<h1 mat-dialog-title *ngIf="this.data.name!==''">Editing a service</h1>
+<div mat-dialog-content>
+    <form #productsForm = "ngForm" (ngSubmit)="productsForm.form.valid && onSubmit()">
+    <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <input matInput [(ngModel)]="data.name" name="name" #name="ngModel" required minlength="2">
+        <mat-hint *ngIf="name.invalid && name.touched">Name required</mat-hint>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input matInput [(ngModel)]="data.price" name="price" #price="ngModel" required min="0">
+        <mat-hint *ngIf="price.invalid && price.touched">Price required</mat-hint>
+    </mat-form-field>
+<div mat-dialog-actions>
+    <button mat-button (click)="close()">No Thanks</button>
+    <button mat-button [disabled]="productsForm.invalid" type="submit" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>
+    </form>
+</div>

@@ -1,0 +1,177 @@
+<!-- <h1 mat-dialog-title *ngIf="this.data.name===''">Adding new invoice</h1>
+<h1 mat-dialog-title *ngIf="this.data.name!==''">Editing an invoice</h1> -->
+<h1 mat-dialog-title *ngIf="this.data.invoiceNumber == undefined || this.data.invoiceNumber === 0">Adding new invoice</h1>
+<h1 mat-dialog-title *ngIf="this.data.invoiceNumber">Editing an invoice</h1>
+<div mat-dialog-content class="mat-content">
+    <form #invoicesForm = "ngForm" (ngSubmit)="invoicesForm.form.valid && onSubmit()">
+        <!-- {{data | json}} -->
+
+        <mat-form-field appearance="fill">
+            <mat-label>Invoice number</mat-label>
+            <input matInput [readonly]="data.isCharged" [(ngModel)]="data.invoiceNumber" name="invoiceNumber" #invoiceNumber="ngModel" required minlength="2">
+            <mat-hint  style="color: red;" *ngIf="invoiceNumber.invalid && invoiceNumber.touched">Invoice number required</mat-hint>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Shipping date</mat-label>
+            <input matInput [readonly]="data.isCharged" [(ngModel)]="data.shippingDate" [matDatepicker]="shippingDatepicker" [value]="data.shippingDate" name="shippingDate"  placeholder="Pick date">
+            <mat-datepicker-toggle [disabled]="data.isCharged" matSuffix [for]="shippingDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #shippingDatepicker></mat-datepicker>
+        </mat-form-field>
+        <br>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Document date</mat-label>
+            <input matInput [readonly]="data.isCharged" [(ngModel)]="data.documentDate" [matDatepicker]="documentDatepicker" [value]="data.documentDate" name="documentDate" placeholder="Pick date">
+            <mat-datepicker-toggle [disabled]="data.isCharged" matSuffix [for]="documentDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #documentDatepicker></mat-datepicker>
+        </mat-form-field>
+        <br>
+
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Arrival date</mat-label>
+            <input matInput [readonly]="data.isCharged" [(ngModel)]="data.arrivalDate" [matDatepicker]="arrivalDatepicker" [value]="data.arrivalDate" name="arrivalDate" placeholder="Pick date">
+            <mat-datepicker-toggle [disabled]="data.isCharged" matSuffix [for]="arrivalDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #arrivalDatepicker></mat-datepicker>
+        </mat-form-field>
+        <br>
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <textarea matInput [readonly]="data.isCharged" [(ngModel)]="data.description" name="description" #description="ngModel"></textarea>
+            <!-- <mat-hint *ngIf="name.invalid && name.touched">Broj računa required</mat-hint> -->
+        </mat-form-field>
+        <br>
+                
+        <mat-form-field appearance="fill">
+            <mat-label>Remark</mat-label>
+            <textarea matInput [readonly]="data.isCharged" [(ngModel)]="data.remark" name="remark" #remar="ngModel"></textarea>
+            <!-- <mat-hint *ngIf="name.invalid && name.touched">Broj računa required</mat-hint> -->
+        </mat-form-field>
+        <br>
+
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Place of issuance</mat-label>
+            <input matInput [readonly]="data.isCharged" [(ngModel)]="data.placeOfIssuance" name="placeOfIssuance" #placeOfIssuance="ngModel" required minlength="2">
+            <mat-hint  style="color: red;" *ngIf="placeOfIssuance.invalid && placeOfIssuance.touched">Place of isuance required</mat-hint>
+        </mat-form-field>
+        <br>
+
+                
+        <mat-form-field appearance="fill">
+            <mat-label>Issuance date</mat-label>
+            <input matInput [readonly]="data.isCharged" [(ngModel)]="data.dateOfIssuance" [matDatepicker]="dateOfIssuanceDatepicker" [value]="data.dateOfIssuance" name="dateOfIssuance" [(ngModel)]="data.dateOfIssuance" placeholder="Pick date">
+            <mat-datepicker-toggle [disabled]="data.isCharged" matSuffix [for]="dateOfIssuanceDatepicker"></mat-datepicker-toggle>
+            <mat-datepicker #dateOfIssuanceDatepicker></mat-datepicker>
+        </mat-form-field>
+        <br>
+
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Fiscal number</mat-label>
+            <input matInput [readonly]="data.isCharged" [(ngModel)]="data.fiscalNumber" name="fiscalNumber" #fiscalNumber="ngModel" minlength="2">
+            <!-- <mat-hint  style="color: red;" *ngIf="fiscalNumber.invalid && fiscalNumber.touched">Broj računa required</mat-hint> -->
+        </mat-form-field>
+        <br>
+
+        
+        <mat-form-field appearance="fill">
+            <mat-label>Buyer</mat-label>
+            <mat-select [disabled]="data.isCharged ? '' : null" name="selectedBuyer" [(ngModel)]="selectedBuyer" (selectionChange)="selectedBuyerChange($event)" required>
+                <mat-option *ngFor="let b of buyers" [value]="b.id">{{b.name}}</mat-option>
+            </mat-select>
+            <!-- <mat-hint *ngIf="isDomestic.invalid && isDomestic.touched">Is domestic is required</mat-hint> -->
+        </mat-form-field>
+
+
+        <div style="display: flex;align-items: center;">
+            <h4>Invoice items</h4>
+            <button *ngIf="!data.isCharged" mat-raised-button color="primary" (click)="addItem()" class="createButton">Add item</button>
+        </div>
+        <table *ngIf="invoiceItems.length > 0">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Service</th>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Price (EUR)</th>
+              <th>Discount</th>
+              <th>Tax</th>
+              <th>Total</th>
+              <th *ngIf="!data.isCharged">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of invoiceItems; let i = index">
+              <td>{{(i + 1)}}.</td>
+              <td>
+                <mat-form-field appearance="fill">
+                    <mat-label>Service</mat-label>
+                    <mat-select [disabled]="data.isCharged ? '' : null" name="selectedService" [(value)]="item.serviceId"   (selectionChange)="selectedInvoiceItemServiceChange($event, item)">
+                        <mat-option *ngFor="let s of services" [value]="s.id" [attr.selected]="item.serviceId === s.id ? true : null">{{s.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                    <input [readonly]="data.isCharged" matInput type="text" name="itemDescription{{i}}" [(ngModel)]="item.description">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                    <input [readonly]="data.isCharged" matInput type="number" name="itemQuantity{{i}}" [(ngModel)]="item.quantity" (input)="onQuantityChange($event.target.value, item)">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                    <input matInput readonly type="number" name="priceOfService{{i}}" [(ngModel)]="item.priceOfService">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                    <input matInput readonly type="number" name="priceOfServiceInEuros{{i}}" [(ngModel)]="item.priceOfServiceInEuros">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                    <input [readonly]="data.isCharged" matInput type="number" name="discount{{i}}" [(ngModel)]="item.discount" (input)="onDiscountChange($event.target.value, item)">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                    <input [readonly]="data.isCharged" matInput type="number" name="tax{{i}}" [(ngModel)]="item.tax" (input)="onTaxChange($event.target.value, item)">
+                </mat-form-field>
+              </td>
+              <td>
+                <mat-form-field>
+                    <input [readonly]="data.isCharged" matInput type="number" name="totalPrice{{i}}" [(ngModel)]="item.totalPrice">
+                </mat-form-field>
+              </td>
+              <td *ngIf="!data.isCharged">
+                <button mat-icon-button (click)="deleteInvoiceItem(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p *ngIf="invoiceItems.length == 0">Invoice has no items</p>
+        <!-- {{ invoiceItems | json }} -->
+          
+        
+
+
+
+        <div mat-dialog-actions>
+            <button *ngIf="!data.isCharged" mat-button (click)="close()">No Thanks</button>
+            <button *ngIf="!data.isCharged" mat-button [disabled]="invoicesForm.invalid" type="submit" [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+            <button *ngIf="data.isCharged" mat-button (click)="close()">Close</button>
+        </div>
+
+    </form>
+</div>
